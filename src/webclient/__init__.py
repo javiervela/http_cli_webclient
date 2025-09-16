@@ -59,10 +59,11 @@ class HTTPWebClient:
             return status_code, reason_phrase
         return None, None
 
-    def _log(self, code, reason, rtt=None):
+    def _log(self, code, reason, ip_address, rtt=None):
         print(
             f"[LOG]  HTTP GET Request\n"
             f"[LOG]    URL         : {self.base_url}\n"
+            f"[LOG]    IP Address  : {ip_address}\n"
             f"[LOG]    Output File : {self.output_file if self.output_file else 'None'}\n"
             f"[LOG]    Status Code : {code}\n"
             f"[LOG]    Reason      : {reason}\n"
@@ -80,6 +81,9 @@ class HTTPWebClient:
 
             # Connect to the server
             sock.connect((self.host, self.port))
+
+            # Get IP address
+            ip_address = sock.getpeername()[0]
 
             # Measure end time and calculate RTT
             end_time = time.time()
@@ -100,8 +104,11 @@ class HTTPWebClient:
                 f.write(response)
 
         if self.ping:
-            print(f"RTT: {rtt:.2f} ms")
+            print(f"{ip_address} RTT {int(rtt)} ms")
         if self.verbose:
             self._log(
-                code=status_code, reason=reason_phrase, rtt=(rtt if self.ping else None)
+                code=status_code,
+                reason=reason_phrase,
+                ip_address=ip_address,
+                rtt=(rtt if self.ping else None),
             )
