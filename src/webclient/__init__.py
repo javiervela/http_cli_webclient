@@ -1,5 +1,6 @@
-from socket import socket, AF_INET, SOCK_STREAM
 import re
+import time
+from socket import socket, AF_INET, SOCK_STREAM
 
 
 # Basic HTTP GET request template
@@ -17,10 +18,21 @@ HTTP_RESPONSE_PATTERN = re.compile(r"HTTP/\d\.\d\s+(\d{3})\s+([^\r\n]+)\r\n")
 
 
 class HTTPWebClient:
-    def __init__(self, host, port, path):
+    def __init__(
+        self,
+        host,
+        port,
+        path,
+        output_file=None,
+        ping=False,
+        verbose=False,
+    ):
         self.host = host
         self.port = port
         self.path = path
+        self.output_file = output_file
+        self.ping = ping
+        self.verbose = verbose
 
         if not self.path.startswith("/"):
             self.path = "/" + self.path
@@ -47,34 +59,49 @@ class HTTPWebClient:
             return status_code, reason_phrase
         return None, None
 
-    def _log(self, file, code, reason):
+    def _log(self, code, reason, rtt=None):
         print(
-            f"HTTP GET Request\n"
-            f"  URL         : {self.base_url}\n"
-            f"  Output File : {file if file else 'None'}\n"
-            f"  Status Code : {code}\n"
-            f"  Reason      : {reason}\n"
+            f"[LOG]  HTTP GET Request\n"
+            f"[LOG]    URL         : {self.base_url}\n"
+            f"[LOG]    Output File : {self.output_file if self.output_file else 'None'}\n"
+            f"[LOG]    Status Code : {code}\n"
+            f"[LOG]    Reason      : {reason}\n"
+            f"[LOG]    RTT         : {f'{rtt:.2f} ms' if rtt is not None else 'N/A'}\n"
         )
 
-    def get(self, output_file):
+    def get(self):
         # Construct the HTTP GET request message
         request_message = HTTP_GET_TEMPLATE.format(host=self.host, path=self.path)
 
         # Create a TCP socket
         with socket(AF_INET, SOCK_STREAM) as sock:
+            # Measure RTT (even if ping is disabled)
+            start_time = time.time()
+
             # Connect to the server
             sock.connect((self.host, self.port))
+
+            # Measure end time and calculate RTT
+            end_time = time.time()
+            rtt = (end_time - start_time) * 1000
+
             # Send the HTTP GET request
             sock.sendall(request_message.encode())
+
             # Receive the response
             response = self._receive_all(sock)
 
         # Parse the response status
         status_code, reason_phrase = self._parse_response(response)
 
-        if output_file:
+        if self.output_file:
             # Log the status code and reason phrase
-            with open(output_file, "w") as f:
+            with open(self.output_file, "w") as f:
                 f.write(response)
 
-        self._log(output_file, status_code, reason_phrase)
+        if self.ping:
+            print(f"RTT: {rtt:.2f} ms")
+        if self.verbose:
+            self._log(
+                code=status_code, reason=reason_phrase, rtt=(rtt if self.ping else None)
+            )

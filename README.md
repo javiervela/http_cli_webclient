@@ -1,4 +1,4 @@
-# A Simple HTTP CLI Web Client.
+# A Simple HTTP CLI Web Client
 
 > Made for CS 513 Computer Networks - Project 2
 
@@ -12,12 +12,14 @@ Simple command-line interface (CLI) application that allows users to send HTTP G
 - Sends an HTTP GET request for a specified path (resource).
 - Receives and displays the server's response.
 - Optionally saves the response content to a file.
+- Supports HTTP/1.0.
+- Measures and displays the round-trip time (RTT) for the request.
 
 ### Enhancements
 
 - Improved HTTP request formatting with additional headers.
 - Response handling with status code and headers display.
-- Enhanced request logging.
+- Optional verbose mode for enhanced request and response logging.
 
 
 ## Project Structure
@@ -64,16 +66,17 @@ webclient -h
 ```
 
 ```plaintext
-usage: webclient [-h] [-f FILE] [-nf] [host] [port] [path]
+usage: webclient [-h] [-f FILE] [-nf] [-ping] [-v] [host] [port] [path]
 
 positional arguments:
-host                  Hostname of the server to connect to (default: www.example.com)
-port                  Port number to connect to (default: 80)
-path                  Path to request from the server (default: /)
+  host                  Hostname of the server to connect to (default: www.example.com)
+  port                  Port number to connect to (default: 80)
+  path                  Path to request from the server (default: /)
 
 options:
--h, --help            show this help message and exit
--f FILE, --file FILE  Output file to save the response (default: ./webout)
--nf, --no-file        Do not save output to a file
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  Output file to save the response (default: ./webout)
+  -nf, --no-file        Do not save output to a file
+  -ping, --ping         Ping the server using HTTP
+  -v, --verbose         Enable verbose output
 ```
-

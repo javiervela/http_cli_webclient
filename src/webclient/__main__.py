@@ -42,15 +42,33 @@ def main():
         action="store_true",
         help="Do not save output to a file",
     )
+    parser.add_argument(
+        "-ping", "--ping", action="store_true", help="Ping the server using HTTP"
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Enable verbose output",
+    )
     args = parser.parse_args()
     server_host = args.host
     server_port = args.port
     server_path = args.path
     output_file = args.file
     no_file = args.no_file
+    ping = args.ping
+    verbose = args.verbose
 
-    client = HTTPWebClient(server_host, server_port, server_path)
-    client.get(output_file if not no_file else None)
+    client = HTTPWebClient(
+        host=server_host,
+        port=server_port,
+        path=server_path,
+        output_file=(None if no_file else output_file),
+        ping=ping,
+        verbose=verbose,
+    )
+    client.get()
 
 
 if __name__ == "__main__":
