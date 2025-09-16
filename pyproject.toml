@@ -1,0 +1,16 @@
+[project]
+name = "webclient"
+version = "0.1.0"
+description = "CS 513 Computer Networks - Project 2 - HTTP CLI Web Client"
+authors = [{ name = "Javier Vela Tambo", email = "jvela@wpi.edu" }]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+webclient = "webclient.__main__:main"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.0",
+]
