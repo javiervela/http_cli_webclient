@@ -63,19 +63,17 @@ You can run the web client using the script defined in `pyproject.toml`. This le
 webclient -h
 ```
 
-- `webclient`: Runs the web client.
+```plaintext
+usage: webclient [-h] [-f FILE] [-nf] [host] [port] [path]
 
-  ```plaintext
-  usage: webclient [-h] [-f FILE] [-nf] [host] [port] [path]
-  
-  positional arguments:
-  host                  Hostname of the server to connect to (default: www.example.com)
-  port                  Port number to connect to (default: 80)
-  path                  Path to request from the server (default: /)
-  
-  options:
-  -h, --help            show this help message and exit
-  -f FILE, --file FILE  Output file to save the response (default: ./webout)
-  -nf, --no-file        Do not save output to a file
-  ```
+positional arguments:
+host                  Hostname of the server to connect to (default: www.example.com)
+port                  Port number to connect to (default: 80)
+path                  Path to request from the server (default: /)
+
+options:
+-h, --help            show this help message and exit
+-f FILE, --file FILE  Output file to save the response (default: ./webout)
+-nf, --no-file        Do not save output to a file
+```
 
