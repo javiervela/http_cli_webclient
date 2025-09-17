@@ -25,6 +25,7 @@ class HTTPWebClient:
         path,
         output_file=None,
         ping=False,
+        packet=False,
         verbose=False,
     ):
         self.host = host
@@ -32,6 +33,9 @@ class HTTPWebClient:
         self.path = path
         self.output_file = output_file
         self.ping = ping
+        self.packet = packet
+        self.packet_sizes = []
+        self.packet_times = []
         self.verbose = verbose
 
         if not self.path.startswith("/"):
@@ -40,13 +44,17 @@ class HTTPWebClient:
         self.base_url = f"http://{self.host}:{self.port}{self.path}"
 
     def _receive_all(self, sock):
-        """Receive all data from the socket until closed"""
+        """Receive all data from the socket until closed and tracks packet sizes and times"""
         response = b""
         while True:
+            start_read = time.time()
             chunk = sock.recv(4096)
+            end_read = time.time()
             if not chunk:
                 break
             response += chunk
+            self.packet_sizes.append(len(chunk))
+            self.packet_times.append((end_read - start_read) * 1000)
 
         return response.decode()
 
@@ -59,15 +67,19 @@ class HTTPWebClient:
             return status_code, reason_phrase
         return None, None
 
-    def _log(self, code, reason, ip_address, rtt=None):
+    def _log(self, code, reason, ip_address, rtt):
         print(
-            f"[LOG]  HTTP GET Request\n"
-            f"[LOG]    URL         : {self.base_url}\n"
-            f"[LOG]    IP Address  : {ip_address}\n"
-            f"[LOG]    Output File : {self.output_file if self.output_file else 'None'}\n"
-            f"[LOG]    Status Code : {code}\n"
-            f"[LOG]    Reason      : {reason}\n"
-            f"[LOG]    RTT         : {f'{rtt:.2f} ms' if rtt is not None else 'N/A'}\n"
+            f"[LOG] HTTP GET Request\n"
+            f"[LOG]  URL                  : {self.base_url}\n"
+            f"[LOG]  IP Address           : {ip_address}\n"
+            f"[LOG]  Output File          : {self.output_file if self.output_file else 'None'}\n"
+            f"[LOG]  Status Code          : {code}\n"
+            f"[LOG]  Reason               : {reason}\n"
+            f"[LOG]  RTT                  : {rtt:.2f} ms\n"
+            f"[LOG]  Response Size        : {sum(self.packet_sizes)} bytes\n"
+            f"[LOG]  Number of Packets    : {len(self.packet_sizes)}\n"
+            f"[LOG]  Packet Sizes (bytes) : {' '.join(f'{size:6}' for size in self.packet_sizes)}\n"
+            f"[LOG]  Packet Times (ms)    : {' '.join(f'{t:6.2f}' for t in self.packet_times)}\n"
         )
 
     def get(self):
@@ -76,19 +88,16 @@ class HTTPWebClient:
 
         # Create a TCP socket
         with socket(AF_INET, SOCK_STREAM) as sock:
-            # Measure RTT (even if ping is disabled)
+            # Connect to the server, measuring RTT
             start_time = time.time()
-
-            # Connect to the server
             sock.connect((self.host, self.port))
+            end_time = time.time()
+            rtt = (end_time - start_time) * 1000
 
             # Get IP address
             ip_address = sock.getpeername()[0]
 
             # Measure end time and calculate RTT
-            end_time = time.time()
-            rtt = (end_time - start_time) * 1000
-
             # Send the HTTP GET request
             sock.sendall(request_message.encode())
 
@@ -105,10 +114,13 @@ class HTTPWebClient:
 
         if self.ping:
             print(f"{ip_address} RTT {int(rtt)} ms")
+        if self.packet:
+            for p_size, p_time in zip(self.packet_sizes, self.packet_times):
+                print(f"{p_size} bytes {p_time:.2f} ms")
         if self.verbose:
             self._log(
                 code=status_code,
                 reason=reason_phrase,
                 ip_address=ip_address,
-                rtt=(rtt if self.ping else None),
+                rtt=rtt,
             )

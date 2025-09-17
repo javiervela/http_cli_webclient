@@ -43,7 +43,16 @@ def main():
         help="Do not save output to a file",
     )
     parser.add_argument(
-        "-ping", "--ping", action="store_true", help="Ping the server using HTTP"
+        "-ping",
+        "--ping",
+        action="store_true",
+        help="Measure Round Trip Time (RTT) to the server",
+    )
+    parser.add_argument(
+        "-pkt",
+        "--packet",
+        action="store_true",
+        help="Measure the packet size of the response",
     )
     parser.add_argument(
         "-v",
@@ -52,12 +61,16 @@ def main():
         help="Enable verbose output",
     )
     args = parser.parse_args()
+
     server_host = args.host
     server_port = args.port
     server_path = args.path
     output_file = args.file
     no_file = args.no_file
     ping = args.ping
+    packet = args.packet
+    if packet:
+        no_file = True    
     verbose = args.verbose
 
     client = HTTPWebClient(
@@ -66,6 +79,7 @@ def main():
         path=server_path,
         output_file=(None if no_file else output_file),
         ping=ping,
+        packet=packet,
         verbose=verbose,
     )
     client.get()
