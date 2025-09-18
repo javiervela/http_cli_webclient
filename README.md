@@ -14,6 +14,8 @@ Simple command-line interface (CLI) application that allows users to send HTTP G
 - Optionally saves the response content to a file.
 - Supports HTTP/1.0.
 - Measures and displays the round-trip time (RTT) for the request.
+- Measures and displays individual packet sizes and times.
+- Measures and displays RTT and RTTvariance using TCP_INFO.
 
 ### Enhancements
 
