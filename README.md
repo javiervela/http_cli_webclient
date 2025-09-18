@@ -4,7 +4,7 @@
 
 ## Project Description
 
-Simple command-line interface (CLI) application that allows users to send HTTP GET requests to a specified server and retrieve web content. The client connects to the server, sends a request for a specific resource, and optionally saves it to a file.
+Simple command-line interface (CLI) application that allows users to send HTTP GET requests to a specified server and retrieve web content. The client connects to the server, sends a request for a specific resource, and optionally saves it to a file. The application has additional features to measure and display the round-trip time (RTT) for the request, individual packet sizes and times, and RTT and RTT variance using TCP_INFO.
 
 ### Functionality
 
