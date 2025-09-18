@@ -1,6 +1,7 @@
 import re
 import time
-from socket import socket, AF_INET, SOCK_STREAM
+from socket import socket, AF_INET, SOCK_STREAM, IPPROTO_TCP
+import struct
 
 
 # Basic HTTP GET request template
@@ -26,16 +27,24 @@ class HTTPWebClient:
         output_file=None,
         ping=False,
         packet=False,
+        info=False,
         verbose=False,
     ):
         self.host = host
         self.port = port
         self.path = path
         self.output_file = output_file
+        self.status_code = None
+        self.reason_phrase = None
         self.ping = ping
+        self.ip_address = None
+        self.rtt_ping = None
         self.packet = packet
         self.packet_sizes = []
         self.packet_times = []
+        self.info = info
+        self.rtt = None
+        self.rttvar = None
         self.verbose = verbose
 
         if not self.path.startswith("/"):
@@ -57,7 +66,8 @@ class HTTPWebClient:
             self.packet_sizes.append(len(chunk))
             self.packet_times.append((end_read - start_read) * 1000)
 
-        return response.decode()
+        # Ignore errors in decoding
+        return response.decode(errors="ignore")
 
     def _parse_response(self, response):
         """Parse the HTTP response and return status code and reason phrase"""
@@ -68,21 +78,52 @@ class HTTPWebClient:
             return status_code, reason_phrase
         return None, None
 
-    def _log(self, code, reason, ip_address, rtt):
-        print(
-            f"[LOG] HTTP GET Request\n"
-            f"[LOG]  URL                  : {self.base_url}\n"
-            f"[LOG]  IP Address           : {ip_address}\n"
-            f"[LOG]  Output File          : {self.output_file if self.output_file else 'None'}\n"
-            f"[LOG]  Status Code          : {code}\n"
-            f"[LOG]  Reason               : {reason}\n"
-            f"[LOG]  RTT                  : {rtt:.2f} ms\n"
-            f"[LOG]  Response Size        : {sum(self.packet_sizes)} bytes\n"
-            f"[LOG]  Response Time        : {rtt + sum(self.packet_times):.2f} ms\n"
-            f"[LOG]  Number of Packets    : {len(self.packet_sizes)}\n"
-            f"[LOG]  Packet Sizes (bytes) : {' '.join(f'{size:6}' for size in self.packet_sizes)}\n"
-            f"[LOG]  Packet Times (ms)    : {' '.join(f'{t:6.2f}' for t in self.packet_times)}\n"
-        )
+    def _get_tcp_info_rtt(self, sock):
+        """Query the Linux kernel for TCP statistics (RTT and RTT variance) using getsockopt(TCP_INFO)"""
+        # TCP_INFO
+        TCP_INFO = 11
+
+        # Request TCP info struct from the kernel
+        info = sock.getsockopt(IPPROTO_TCP, TCP_INFO, 104)
+
+        # Unpack the struct to get RTT and RTT variance
+        fmt = "B" * 7 + "I" * 24
+        tcp_info = struct.unpack(fmt, info)
+        rtt_micros, rttvar_micros = tcp_info[22], tcp_info[23]
+
+        rtt_ms = rtt_micros / 1000.0
+        rttvar_ms = rttvar_micros / 1000.0
+
+        return rtt_ms, rttvar_ms
+
+    def _log(self):
+        if self.ping:
+            print(f"{self.ip_address} RTT {int(self.rtt_ping)} ms")
+        if self.packet:
+            for p_size, p_time in zip(self.packet_sizes, self.packet_times):
+                print(f"{p_size} bytes {int(p_time)} ms")
+        if self.info:
+            print(
+                f"TCP_INFO: RTT {int(self.rtt)} ms\n"
+                f"TCP_INFO: RTT_var {int(self.rttvar)} ms"
+            )
+        if self.verbose:
+            print(
+                f"[LOG] HTTP GET Request\n"
+                f"[LOG]  URL                     : {self.base_url}\n"
+                f"[LOG]  IP Address              : {self.ip_address}\n"
+                f"[LOG]  Output File             : {self.output_file if self.output_file else 'None'}\n"
+                f"[LOG]  Status Code             : {self.status_code}\n"
+                f"[LOG]  Reason                  : {self.reason_phrase}\n"
+                f"[LOG]  RTT (-ping)             : {self.rtt_ping:.2f} ms\n"
+                f"[LOG]  RTT (TCP_INFO)          : {self.rtt:.2f} ms\n"
+                f"[LOG]  RTT Variance (TCP_INFO) : {self.rttvar:.2f} ms\n"
+                f"[LOG]  Response Size           : {sum(self.packet_sizes)} bytes\n"
+                f"[LOG]  Response Time           : {self.rtt_ping + sum(self.packet_times):.2f} ms\n"
+                f"[LOG]  Number of Packets       : {len(self.packet_sizes)}\n"
+                f"[LOG]  Packet Sizes (bytes)    : {' '.join(f'{size:6}' for size in self.packet_sizes)}\n"
+                f"[LOG]  Packet Times (ms)       : {' '.join(f'{t:6.2f}' for t in self.packet_times)}"
+            )
 
     def get(self):
         # Construct the HTTP GET request message
@@ -94,35 +135,25 @@ class HTTPWebClient:
             start_time = time.time()
             sock.connect((self.host, self.port))
             end_time = time.time()
-            rtt = (end_time - start_time) * 1000
+            self.rtt_ping = (end_time - start_time) * 1000
 
             # Get IP address
-            ip_address = sock.getpeername()[0]
+            self.ip_address = sock.getpeername()[0]
 
-            # Measure end time and calculate RTT
             # Send the HTTP GET request
             sock.sendall(request_message.encode())
 
             # Receive the response
             response = self._receive_all(sock)
 
+            self.rtt, self.rttvar = self._get_tcp_info_rtt(sock)
+
         # Parse the response status
-        status_code, reason_phrase = self._parse_response(response)
+        self.status_code, self.reason_phrase = self._parse_response(response)
 
         if self.output_file:
             # Log the status code and reason phrase
             with open(self.output_file, "w") as f:
                 f.write(response)
 
-        if self.ping:
-            print(f"{ip_address} RTT {int(rtt)} ms")
-        if self.packet:
-            for p_size, p_time in zip(self.packet_sizes, self.packet_times):
-                print(f"{p_size} bytes {p_time:.2f} ms")
-        if self.verbose:
-            self._log(
-                code=status_code,
-                reason=reason_phrase,
-                ip_address=ip_address,
-                rtt=rtt,
-            )
+        self._log()

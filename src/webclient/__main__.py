@@ -55,6 +55,12 @@ def main():
         help="Measure the packet size of the response",
     )
     parser.add_argument(
+        "-info",
+        "--info",
+        action="store_true",
+        help="Display TCP connection information using TCP_INFO",
+    )
+    parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
@@ -70,7 +76,9 @@ def main():
     ping = args.ping
     packet = args.packet
     if packet:
-        no_file = True    
+        no_file = True
+    info = args.info
+
     verbose = args.verbose
 
     client = HTTPWebClient(
@@ -80,6 +88,7 @@ def main():
         output_file=(None if no_file else output_file),
         ping=ping,
         packet=packet,
+        info=info,
         verbose=verbose,
     )
     client.get()
