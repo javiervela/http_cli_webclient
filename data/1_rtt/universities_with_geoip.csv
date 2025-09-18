@@ -1,4 +1,4 @@
-University,Domain,City,Region,Country,Latitude,Longitude
+University,Domain,IP_City,IP_Region,IP_Country,IP_Latitude,IP_Longitude
 ETH Zurich,www.ethz.ch,Zürich,Zurich,CH,47.3667,8.5500
 University of Berlin,www.fu-berlin.de,Berlin,State of Berlin,DE,52.5244,13.4105
 Gonzaga University,www.gonzaga.edu,Moses Lake,Washington,US,47.1301,-119.2781

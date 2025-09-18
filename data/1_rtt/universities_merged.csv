@@ -1,0 +1,21 @@
+University,Domain,Latitude,Longitude,City,Region,Country,IP_City,IP_Region,IP_Country,IP_Latitude,IP_Longitude,IP,RTT_min,RTT_max,RTT_median,RTT_mean
+University of Cambridge,www.cam.ac.uk,52.2109456,0.092005,Cambridge,England,United Kingdom,San Francisco,California,US,37.7929,-122.4079,23.185.0.3,15.0,21.0,17.0,17.35
+ETH Zurich,www.ethz.ch,47.413218,8.5374914,Zürich,Zürich,Schweiz/Suisse/Svizzera/Svizra,Zürich,Zurich,CH,47.3667,8.55,129.132.19.216,85.0,314.0,86.5,99.9
+Gonzaga University,www.gonzaga.edu,47.6671025,-117.4030546,Spokane,Washington,United States,Moses Lake,Washington,US,47.1301,-119.2781,20.72.217.90,81.0,109.0,84.5,86.35
+Harvard University,www.harvard.edu,42.3657432,-71.1222139,Cambridge,Massachusetts,United States,San Francisco,California,US,37.7749,-122.4194,192.0.66.20,17.0,35.0,20.0,21.6
+Harvey Mudd College,www.hmc.edu,34.1061401,-117.7087284,Claremont,California,United States,Portland,Oregon,US,45.5234,-122.6762,66.33.202.112,77.0,95.0,80.0,82.15
+Indian Institute of Technology Madras,www.iitm.ac.in,12.9941561,80.2366826,,Tamil Nadu,India,Nerkunram,Tamil Nadu,IN,13.0659,80.2365,103.158.42.45,300.0,378.0,340.5,341.05
+Kyoto University,www.kyoto-u.ac.jp,35.0229299,135.777149,Kyoto,,Japan,Ashburn,Virginia,US,39.0437,-77.4875,146.75.30.132,18.0,36.0,19.0,21.0
+National University of Singapore,www.nus.edu.sg,1.2962018,103.7768977,Singapore,,Singapore,San Mateo,California,US,37.5395,-122.2998,45.60.31.225,16.0,31.0,17.0,17.95
+Sorbonne University,www.sorbonne-universite.fr,48.8468997,2.3574487,Paris,France métropolitaine,France,San Francisco,California,US,37.7621,-122.3971,151.101.130.216,17.0,21.0,19.0,19.1
+University of Toronto,www.toronto.edu,43.663462,-79.3977597,Toronto,Ontario,Canada,Toronto,Ontario,CA,43.7064,-79.3986,128.100.5.23,21.0,26.0,23.0,22.95
+Tsinghua University,www.tsinghua.edu.cn,40.0022905,116.320963,Beijing,,China,Beijing,Beijing,CN,39.9075,116.3972,101.6.15.66,256.0,310.0,258.5,264.55
+University of Barcelona,www.ub.edu,41.3868596,2.1634784,Barcelona,Catalunya,España,Girona,Catalonia,ES,41.9831,2.8249,161.116.110.164,104.0,165.0,106.5,110.45
+University of British Columbia,www.ubc.ca,49.2578915,-123.2429755,Electoral Area A,British Columbia,Canada,South Riding,Virginia,US,38.9209,-77.5039,3.167.69.48,15.0,31.0,19.0,19.3
+"University of California, Los Angeles",www.ucla.edu,34.0198321,-118.2780639,Los Angeles,California,United States,South Riding,Virginia,US,38.9209,-77.5039,3.171.61.25,16.0,52.0,18.0,19.6
+National Autonomous University of Mexico,www.unam.mx,19.321597,-99.1849259,Ciudad de México,Ciudad de México,México,San Francisco,California,US,37.7621,-122.3971,104.17.117.46,18.0,28.0,19.0,20.55
+University of North Dakota,www.und.edu,47.9265412,-97.0721209,Grand Forks,North Dakota,United States,Grand Forks,North Dakota,US,47.9253,-97.0328,134.129.183.70,45.0,54.0,49.0,48.85
+University of Melbourne,www.unimelb.edu.au,-37.8241371,144.9170886,Melbourne,Victoria,Australia,Sydney,New South Wales,AU,-33.8678,151.2073,2.58.104.11,16.0,23.0,18.0,18.45
+University of Zaragoza,www.unizar.es,41.6345573,-0.899798,Zaragoza,Aragón,España,Teruel,Aragon,ES,40.3456,-1.1065,155.210.11.203,96.0,135.0,97.0,99.4
+Victoria University of Wellington,www.vuw.ac.nz,-36.8482415,174.767756,Waitematā,Auckland,New Zealand / Aotearoa,Wellington,Wellington Region,NZ,-41.2866,174.7756,130.195.2.29,214.0,323.0,239.0,243.05
+Worcester Polytechnic Institute,www.wpi.edu,42.274315,-71.8084567,Worcester,Massachusetts,United States,Ashburn,Virginia,US,39.0437,-77.4875,184.73.245.212,16.0,21.0,17.5,17.7

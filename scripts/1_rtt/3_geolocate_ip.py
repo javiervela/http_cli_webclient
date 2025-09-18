@@ -27,11 +27,11 @@ for ip in df["IP"]:
     lons.append(lon)
     time.sleep(0.5)
 
-df["City"] = cities
-df["Region"] = regions
-df["Country"] = countries
-df["Latitude"] = lats
-df["Longitude"] = lons
+df["IP_City"] = cities
+df["IP_Region"] = regions
+df["IP_Country"] = countries
+df["IP_Latitude"] = lats
+df["IP_Longitude"] = lons
 
 df.drop(
     columns=["IP", "RTT_min", "RTT_max", "RTT_median", "RTT_mean"],
