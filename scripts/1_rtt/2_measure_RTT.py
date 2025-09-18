@@ -2,8 +2,8 @@ import pandas as pd
 import subprocess
 import statistics
 
-INPUT_CSV = "data/universities.csv"
-OUTPUT_CSV = "data/universities_with_rtt.csv"
+INPUT_CSV = "data/1_rtt/universities.csv"
+OUTPUT_CSV = "data/1_rtt/universities_with_rtt.csv"
 
 df = pd.read_csv(INPUT_CSV)
 

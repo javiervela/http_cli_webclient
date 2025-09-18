@@ -2,8 +2,8 @@ import pandas as pd
 import requests
 import time
 
-INPUT_CSV = "data/universities.csv"
-OUTPUT_CSV = "data/universities_with_coordinates.csv"
+INPUT_CSV = "data/1_rtt/universities.csv"
+OUTPUT_CSV = "data/1_rtt/universities_with_coordinates.csv"
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 
 df = pd.read_csv(INPUT_CSV)

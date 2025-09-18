@@ -2,8 +2,8 @@ import pandas as pd
 import requests
 import time
 
-INPUT_CSV = "data/universities_with_rtt.csv"
-OUTPUT_CSV = "data/universities_with_geoip.csv"
+INPUT_CSV = "data/1_rtt/universities_with_rtt.csv"
+OUTPUT_CSV = "data/1_rtt/universities_with_geoip.csv"
 BASE_URL = "https://ipinfo.io"
 
 df = pd.read_csv(INPUT_CSV)
