@@ -70,7 +70,7 @@ webclient -h
 ```
 
 ```plaintext
-usage: webclient [-h] [-f FILE] [-nf] [-ping] [-v] [host] [port] [path]
+usage: webclient [-h] [-f FILE] [-nf] [-ping] [-pkt] [-info] [-v] [host] [port] [path]
 
 positional arguments:
   host                  Hostname of the server to connect to (default: www.example.com)
@@ -81,6 +81,8 @@ options:
   -h, --help            show this help message and exit
   -f FILE, --file FILE  Output file to save the response (default: ./webout)
   -nf, --no-file        Do not save output to a file
-  -ping, --ping         Ping the server using HTTP
+  -ping, --ping         Measure Round Trip Time (RTT) to the server
+  -pkt, --packet        Measure the packet size of the response
+  -info, --info         Display TCP connection information using TCP_INFO
   -v, --verbose         Enable verbose output
 ```
