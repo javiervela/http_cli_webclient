@@ -1,6 +1,6 @@
 # A Simple HTTP CLI Web Client
 
-> Made for CS 513 Computer Networks - Project 2
+> Made for CS 513 Computer Networks - Project 2 @ Worcester Polytechnic Institute (WPI)
 
 ## Project Description
 
@@ -28,6 +28,8 @@ Simple command-line interface (CLI) application that allows users to send HTTP G
 http_cli_webclient/
 ├── README.md               # This file
 ├── pyproject.toml          # Project configuration file
+├── data/                   # Data files
+├── scripts/                # Scripts for data analyses
 └── src/webclient/          # Source code
     ├── __init__.py
     └── __main__.py
