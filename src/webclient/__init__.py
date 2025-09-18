@@ -46,9 +46,10 @@ class HTTPWebClient:
     def _receive_all(self, sock):
         """Receive all data from the socket until closed and tracks packet sizes and times"""
         response = b""
+        buffer_size = 10240  # 10K bytes
         while True:
             start_read = time.time()
-            chunk = sock.recv(4096)
+            chunk = sock.recv(buffer_size)
             end_read = time.time()
             if not chunk:
                 break
@@ -77,6 +78,7 @@ class HTTPWebClient:
             f"[LOG]  Reason               : {reason}\n"
             f"[LOG]  RTT                  : {rtt:.2f} ms\n"
             f"[LOG]  Response Size        : {sum(self.packet_sizes)} bytes\n"
+            f"[LOG]  Response Time        : {rtt + sum(self.packet_times):.2f} ms\n"
             f"[LOG]  Number of Packets    : {len(self.packet_sizes)}\n"
             f"[LOG]  Packet Sizes (bytes) : {' '.join(f'{size:6}' for size in self.packet_sizes)}\n"
             f"[LOG]  Packet Times (ms)    : {' '.join(f'{t:6.2f}' for t in self.packet_times)}\n"
