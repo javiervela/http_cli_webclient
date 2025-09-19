@@ -57,14 +57,13 @@ class HTTPWebClient:
         response = b""
         buffer_size = 10240  # 10K bytes
         while True:
-            start_read = time.time()
             chunk = sock.recv(buffer_size)
-            end_read = time.time()
+            read_time = time.time()
             if not chunk:
                 break
             response += chunk
             self.packet_sizes.append(len(chunk))
-            self.packet_times.append((end_read - start_read) * 1000)
+            self.packet_times.append(read_time)
 
         # Ignore errors in decoding
         return response.decode(errors="ignore")
@@ -121,8 +120,8 @@ class HTTPWebClient:
                 f"[LOG]  Response Size           : {sum(self.packet_sizes)} bytes\n"
                 f"[LOG]  Response Time           : {self.rtt_ping + sum(self.packet_times):.2f} ms\n"
                 f"[LOG]  Number of Packets       : {len(self.packet_sizes)}\n"
-                f"[LOG]  Packet Sizes (bytes)    : {' '.join(f'{size:6}' for size in self.packet_sizes)}\n"
-                f"[LOG]  Packet Times (ms)       : {' '.join(f'{t:6.2f}' for t in self.packet_times)}"
+                f"[LOG]  Packet Sizes (bytes)    : {' '.join(f'{size:8}' for size in self.packet_sizes)}\n"
+                f"[LOG]  Packet Times (ms)       : {' '.join(f'{t:8.2f}' for t in self.packet_times)}"
             )
 
     def get(self):
@@ -140,6 +139,9 @@ class HTTPWebClient:
             # Get IP address
             self.ip_address = sock.getpeername()[0]
 
+            self.packet_sizes.append(0)
+            self.packet_times.append(start_time)
+
             # Send the HTTP GET request
             sock.sendall(request_message.encode())
 
@@ -147,6 +149,9 @@ class HTTPWebClient:
             response = self._receive_all(sock)
 
             self.rtt, self.rttvar = self._get_tcp_info_rtt(sock)
+            self.packet_times = [
+                (t - self.packet_times[0]) * 1000 for t in self.packet_times[0:]
+            ]
 
         # Parse the response status
         self.status_code, self.reason_phrase = self._parse_response(response)
