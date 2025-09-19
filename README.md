@@ -1,6 +1,7 @@
 # A Simple HTTP CLI Web Client
 
 > Made for CS 513 Computer Networks - Project 2 @ Worcester Polytechnic Institute (WPI)
+> This repo includes a [Report](./report.pdf) with a different RTT and Packet Size analyses using the tool.
 
 ## Project Description
 
