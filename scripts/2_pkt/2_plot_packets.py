@@ -4,11 +4,12 @@ import matplotlib.pyplot as plt
 
 
 INPUT_FILE = "data/2_pkt/mirrors_packets.csv"
+INPUT_FILE_2 = "data/2_pkt/universities_packets.csv"
 
 df = pd.read_csv(INPUT_FILE)
+df_2 = pd.read_csv(INPUT_FILE_2)
 
 
-# Plot all mirrors in the same figure
 plt.figure(figsize=(8, 4))
 grouped = df.groupby("Mirror")
 for mirror, group in grouped:
@@ -23,7 +24,7 @@ plt.tight_layout()
 plt.savefig("data/2_pkt/all_mirrors_packet_plot.png")
 plt.close()
 
-# Generate LaTeX table for domain statistics
+
 latex_table = df[
     [
         "Mirror",
@@ -39,3 +40,22 @@ latex_str = latex_table.to_latex(
 )
 with open("data/2_pkt/mirrors_packet_stats.tex", "w") as f:
     f.write(latex_str)
+
+
+latex_table_2 = df_2[
+    [
+        "Domain",
+        "Total Bytes",
+        "Packet Min",
+        "Packet Max",
+        "Packet Mode",
+        "Packet Median",
+    ]
+]
+latex_str_2 = latex_table_2.to_latex(
+    index=False,
+    caption="Packet Statistics per University",
+    label="tab:univ_packet_stats",
+)
+with open("data/2_pkt/universities_packet_stats.tex", "w") as f:
+    f.write(latex_str_2)

@@ -1,0 +1,24 @@
+University,Domain,Packet Bytes,Cumulative Bytes,Packet Times,Total Bytes,Total Time,Packet Min,Packet Max,Packet Mode,Packet Median
+ETH Zurich,www.ethz.ch,"[0, 163]","[0, 163]","[0, 354]",163,354,163,163,163,163.0
+University of Berlin,www.fu-berlin.de,"[0, 442]","[0, 442]","[0, 476]",442,476,442,442,442,442.0
+Gonzaga University,www.gonzaga.edu,"[0, 415]","[0, 415]","[0, 195]",415,195,415,415,415,415.0
+Harvard University,www.harvard.edu,"[0, 349]","[0, 349]","[0, 57]",349,57,349,349,349,349.0
+Harvey Mudd College,www.hmc.edu,"[0, 432]","[0, 432]","[0, 235]",432,235,432,432,432,432.0
+Indian Institute of Technology Madras,www.iitm.ac.in,"[0, 79]","[0, 79]","[0, 1346]",79,1346,79,79,79,79.0
+King's College London,www.kcl.ac.uk,"[0, 208]","[0, 208]","[0, 615]",208,615,208,208,208,208.0
+Kyoto University,www.kyoto-u.ac.jp,"[0, 401]","[0, 401]","[0, 452]",401,452,401,401,401,401.0
+National Autonomous University of Mexico,www.unam.mx,"[0, 659]","[0, 659]","[0, 143]",659,143,659,659,659,659.0
+National University of Singapore,www.nus.edu.sg,"[0, 107]","[0, 107]","[0, 382]",107,382,107,107,107,107.0
+Sorbonne University,www.sorbonne-universite.fr,"[0, 382]","[0, 382]","[0, 113]",382,113,382,382,382,382.0
+Tsinghua University,www.tsinghua.edu.cn,"[0, 316]","[0, 316]","[0, 948]",316,948,316,316,316,316.0
+University of Barcelona,www.ub.edu,"[0, 444]","[0, 444]","[0, 277]",444,277,444,444,444,444.0
+University of British Columbia,www.ubc.ca,"[0, 700]","[0, 700]","[0, 76]",700,76,700,700,700,700.0
+"University of California, Los Angeles",www.ucla.edu,"[0, 557]","[0, 557]","[0, 356]",557,356,557,557,557,557.0
+University of Cambridge,www.cam.ac.uk,"[0, 433]","[0, 433]","[0, 79]",433,79,433,433,433,433.0
+University of Melbourne,www.unimelb.edu.au,"[0, 799]","[0, 799]","[0, 756]",799,756,799,799,799,799.0
+University of North Dakota,www.und.edu,"[0, 119]","[0, 119]","[0, 256]",119,256,119,119,119,119.0
+University of Oxford,www.ox.ac.uk,"[0, 246]","[0, 246]","[0, 233]",246,233,246,246,246,246.0
+University of Toronto,www.toronto.edu,"[0, 537]","[0, 537]","[0, 74]",537,74,537,537,537,537.0
+University of Zaragoza,www.unizar.es,"[0, 379]","[0, 379]","[0, 230]",379,230,379,379,379,379.0
+Victoria University of Wellington,www.vuw.ac.nz,"[0, 122]","[0, 122]","[0, 563]",122,563,122,122,122,122.0
+Worcester Polytechnic Institute,www.wpi.edu,"[0, 653]","[0, 653]","[0, 31]",653,31,653,653,653,653.0
