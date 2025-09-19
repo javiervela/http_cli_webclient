@@ -80,7 +80,7 @@ with open(OUTPUT_CSV.replace(".csv", "_table.tex"), "w") as f:
 print(f"Saved enriched file to {OUTPUT_CSV}")
 
 
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(6, 4))
 x = df["Distance_WPI_to_LatLong"]
 y = df["RTT_median"]
 labels = df["Domain"]
@@ -88,7 +88,7 @@ labels = df["Domain"]
 plt.scatter(x, y, color="blue")
 
 texts = [
-    plt.text(x.iloc[i], y.iloc[i], label, fontsize=12, alpha=0.8)
+    plt.text(x.iloc[i], y.iloc[i], label, fontsize=8, alpha=0.8)
     for i, label in enumerate(labels)
 ]
 adjustText.adjust_text(texts, arrowprops=dict(arrowstyle="->", color="gray", lw=0.5))
@@ -99,7 +99,7 @@ plt.grid(True, linestyle="--", alpha=0.5)
 plt.tight_layout()
 plt.savefig(OUTPUT_CSV.replace(".csv", "_scatter.png"))
 
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(6, 4))
 x_ip = df["Distance_WPI_to_IP_LatLong"]
 y_ip = df["RTT_median"]
 labels_ip = df["Domain"]
@@ -107,7 +107,7 @@ labels_ip = df["Domain"]
 plt.scatter(x_ip, y_ip, color="green")
 
 texts_ip = [
-    plt.text(x_ip.iloc[i], y_ip.iloc[i], label, fontsize=12, alpha=0.8)
+    plt.text(x_ip.iloc[i], y_ip.iloc[i], label, fontsize=8, alpha=0.8)
     for i, label in enumerate(labels_ip)
 ]
 adjustText.adjust_text(texts_ip, arrowprops=dict(arrowstyle="->", color="gray", lw=0.5))
